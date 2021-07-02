@@ -1,0 +1,43 @@
+{
+  "name": "fusio/sdk-laravel",
+  "homepage": "https://www.fusio-project.org/",
+  "description": "SDK to integrate Fusio into your Laravel application",
+  "keywords": [
+    "laravel",
+    "fusio",
+    "sdk"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Christoph Kappestein",
+      "email": "christoph.kappestein@gmail.com",
+      "homepage": "https://chrisk.app"
+    }
+  ],
+  "require": {
+    "fusio/sdk": "^1.0",
+    "illuminate/support": "^8.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Fusio\\Laravel\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Fusio\\Laravel\\Test\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Fusio\\Laravel\\FusioServiceProvider"
+      ]
+    }
+  }
+}
