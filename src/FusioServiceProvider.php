@@ -2,11 +2,10 @@
 
 namespace Fusio\Laravel;
 
-use Fusio\Laravel\TokenStore\ConfigTokenStore;
-use Fusio\Laravel\TokenStore\TokenStoreInterface;
-use Fusio\Sdk\Authenticator;
-use Fusio\Sdk\Backend\Client as BackendClient;
-use Fusio\Sdk\Consumer\Client as ConsumerClient;
+use Fusio\Sdk\Client;
+use Fusio\Sdk\TokenStore\FileTokenStore;
+use Fusio\Sdk\TokenStore\MemoryTokenStore;
+use Fusio\Sdk\TokenStore\TokenStoreInterface;
 use Illuminate\Contracts\Foundation\Application as App;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
@@ -35,32 +34,30 @@ class FusioServiceProvider extends ServiceProvider implements DeferrableProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/fusio.php', 'fusio');
 
-        $this->app->singleton(BackendClient::class, function (App $app) {
+        $this->app->singleton(Client::class, function (App $app) {
             /** @var TokenStoreInterface $store */
-            $store = $app->make(TokenStoreInterface::class);
+            $tokenStore = $app->make(TokenStoreInterface::class);
 
-            return new BackendClient($store->getBaseUri(), $store->getAccessToken());
+            return new Client(
+                config('fusio.base_uri'),
+                config('fusio.app_key'),
+                config('fusio.app_secret'),
+                config('fusio.scopes'),
+                $tokenStore
+            );
         });
 
-        $this->app->singleton(ConsumerClient::class, function (App $app) {
-            /** @var TokenStoreInterface $store */
-            $store = $app->make(TokenStoreInterface::class);
-
-            return new ConsumerClient($store->getBaseUri(), $store->getAccessToken());
+        $this->app->singleton(FileTokenStore::class, function () {
+            return new FileTokenStore();
         });
 
-        $this->app->singleton(Authenticator::class, function (App $app) {
-            /** @var TokenStoreInterface $store */
-            $store = $app->make(TokenStoreInterface::class);
-
-            return new Authenticator($store->getBaseUri());
+        $this->app->singleton(MemoryTokenStore::class, function () {
+            return new MemoryTokenStore();
         });
 
-        $this->app->singleton(ConfigTokenStore::class, function (App $app) {
-            return new ConfigTokenStore();
-        });
-
-        $this->app->bind(TokenStoreInterface::class, ConfigTokenStore::class);
+        // by default we use the memory token store, if you want to persist the access token between requests you need
+        // to use a different implementation
+        $this->app->bind(TokenStoreInterface::class, MemoryTokenStore::class);
     }
 
     /**
@@ -69,9 +66,7 @@ class FusioServiceProvider extends ServiceProvider implements DeferrableProvider
     public function provides()
     {
         return [
-            BackendClient::class,
-            ConsumerClient::class,
-            Authenticator::class,
+            Client::class,
         ];
     }
 }
