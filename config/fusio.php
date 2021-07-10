@@ -12,6 +12,8 @@ return [
     |
     */
     'base_uri' => env('FUSIO_BASE_URI'),
-    'access_token' => env('FUSIO_ACCESS_TOKEN'),
+    'app_key' => env('FUSIO_APP_KEY'),
+    'app_secret' => env('FUSIO_APP_SECRET'),
+    'scopes' => null, // optional an array of scopes
 
 ];
