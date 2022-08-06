@@ -25,6 +25,11 @@ class SessionTokenStore implements TokenStoreInterface
 
     public function persist(AccessToken $token): void
     {
-        session(self::SESSION_KEY, $token->toArray());
+        session([self::SESSION_KEY => $token->toArray()]);
+    }
+
+    public function remove(): void
+    {
+        session([self::SESSION_KEY => null]);
     }
 }
