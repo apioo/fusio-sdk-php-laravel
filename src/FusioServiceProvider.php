@@ -36,7 +36,7 @@ class FusioServiceProvider extends ServiceProvider implements DeferrableProvider
 
         $this->app->singleton(Client::class, function (App $app) {
             /** @var TokenStoreInterface $store */
-            $tokenStore = $app->make(TokenStoreInterface::class);
+            $tokenStore = $app->make(FileTokenStore::class);
 
             return new Client(
                 config('fusio.base_uri'),
