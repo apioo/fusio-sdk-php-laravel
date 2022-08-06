@@ -55,9 +55,13 @@ class FusioServiceProvider extends ServiceProvider implements DeferrableProvider
             return new MemoryTokenStore();
         });
 
+        $this->app->singleton(SessionTokenStore::class, function () {
+            return new SessionTokenStore();
+        });
+
         // by default we use the memory token store, if you want to persist the access token between requests you need
         // to use a different implementation
-        $this->app->bind(TokenStoreInterface::class, MemoryTokenStore::class);
+        $this->app->bind(TokenStoreInterface::class, SessionTokenStore::class);
     }
 
     /**
