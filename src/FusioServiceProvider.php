@@ -3,12 +3,12 @@
 namespace Fusio\Laravel;
 
 use Fusio\Sdk\Client;
-use Fusio\Sdk\TokenStore\FileTokenStore;
-use Fusio\Sdk\TokenStore\MemoryTokenStore;
-use Fusio\Sdk\TokenStore\TokenStoreInterface;
 use Illuminate\Contracts\Foundation\Application as App;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
+use Sdkgen\Client\TokenStore\FileTokenStore;
+use Sdkgen\Client\TokenStore\MemoryTokenStore;
+use Sdkgen\Client\TokenStoreInterface;
 
 /**
  * @author  Christoph Kappestein <christoph.kappestein@gmail.com>

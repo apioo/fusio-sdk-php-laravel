@@ -20,6 +20,9 @@
     "fusio/sdk": "^2.0",
     "laravel/framework": "^7.0|^8.0|^9.0"
   },
+  "require-dev": {
+    "vimeo/psalm": "^4.0"
+  },
   "autoload": {
     "psr-4": {
       "Fusio\\Laravel\\": "src/"
