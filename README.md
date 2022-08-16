@@ -2,7 +2,8 @@
 # Fusio SDK Laravel
 
 This library integrates the [Fusio SDK](https://github.com/apioo/fusio-sdk-php) into Laravel. That means you can control
-the complete Fusio backend API through your laravel application.
+the complete Fusio backend API through your laravel application. There is also a <a href="https://github.com/apioo/fusio-sample-laravel">Laravel sample application</a>
+which shows how to use this SDK.
 
 ## Configuration
 
